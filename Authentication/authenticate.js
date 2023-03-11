@@ -10,6 +10,7 @@ const authenticate = (req, res, next) => {
         return res.status(400).send({ Error: err });
       } else {
         req.UserId = decoded.UserId;
+        req.username = decoded.username
         next();
       }
     });

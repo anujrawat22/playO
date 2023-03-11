@@ -43,8 +43,8 @@ UserRouter.post('/login',async (req,res)=>{
                 return res.status().send({'Error' : err })
             }else{
                 if(result){
-                  const token = jwt.sign( {UserId : user._id},process.env.TokenKey,{expiresIn : 60*60*24*7})
-                  const refresh_token = jwt.sign({UserId : user._id},process.env.RefreshTokenKey,{expiresIn : 60*60*24*30})
+                  const token = jwt.sign( {UserId : user._id,username : user.name},process.env.TokenKey,{expiresIn : 60*60*24*7})
+                  const refresh_token = jwt.sign({UserId : user._id,username : user.name},process.env.RefreshTokenKey,{expiresIn : 60*60*24*30})
                   return res.status(200).send({'message' : 'Login Sucessful', 'token' : token ,'refresh_token' : refresh_token, 'user_detail' : {'name' : user.name,'email' : user.email}})
                 }else{
                     return res.status(401).send({"message" : "Incorrect Password"})
