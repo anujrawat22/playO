@@ -5,6 +5,7 @@ const { PlayerModel } = require("../models/player.model");
 
 const eventRouter = express.Router();
 
+// all the events 
 eventRouter.get("/", authenticate, async (req, res) => {
   try {
     let data = await EventModel.find({ event_time: { $gte: new Date() } }).sort(
@@ -18,6 +19,8 @@ eventRouter.get("/", authenticate, async (req, res) => {
   }
 });
 
+
+// returns event with the input eventID and all the players who have joined the event
 eventRouter.get("/:eventId", authenticate, async (req, res) => {
   try {
     const { eventId } = req.params;
@@ -36,6 +39,8 @@ eventRouter.get("/:eventId", authenticate, async (req, res) => {
   }
 });
 
+
+// create an event
 eventRouter.post("/create", authenticate, async (req, res) => {
   try {
     const {
@@ -69,8 +74,8 @@ eventRouter.post("/create", authenticate, async (req, res) => {
 });
 
 
-
-eventRouter.put("/update/:eventId",authenticate,async(req,res)=>{
+// update the details of an event
+eventRouter.put("/:eventId/update",authenticate,async(req,res)=>{
     try{
         const { eventId } = req.params
         const payload = req.body
@@ -83,6 +88,23 @@ eventRouter.put("/update/:eventId",authenticate,async(req,res)=>{
     }
 })
 
+
+// update the status of an event
+eventRouter.put("/:eventId/status",authenticate,async(req,res)=>{
+    try{
+        const { eventId } = req.params
+        const { updated } = req.query
+        await EventModel.findByIdAndUpdate({_id : eventId},{
+            $set : { event_status : updated}
+        })
+    }
+    catch(err){
+        console.log(err)
+        res.status(500).send({"message" : 'Server error'})
+    }
+})
+
+// delete an event
 eventRouter.delete("/delete/:eventId",authenticate,async (req,res)=>{
 
     try{

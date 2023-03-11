@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 
+
+// player schema
 const playerSchema = mongoose.Schema({
   player_name: { type: String, required: true },
   event_id: { type: mongoose.Schema.Types.ObjectId },

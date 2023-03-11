@@ -7,10 +7,13 @@ const { UserRouter } = require("./routes/user.route");
 const app = express();
 app.use(express.json());
 
+// route for user signup and login
 app.use("/user", UserRouter);
 
+// route for event CRUD
 app.use("/events",eventRouter)
 
+// route for creating,approving,rejecting requests for an event
 app.use("/request",requestRouter)
 
 app.listen(process.env.Port, async () => {
