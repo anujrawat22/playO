@@ -1,5 +1,5 @@
 const express = require("express");
-const { authenticate } = require("../Authentication/authenticate");
+const { authenticate } = require("../middlewares/authenticate");
 const { EventModel } = require("../models/event.model");
 const { PlayerModel } = require("../models/player.model");
 
@@ -66,6 +66,21 @@ requestRouter.post("/:id/reject",authenticate,async(req,res)=>{
     catch(err){
         console.log(err)
         res.status(500).send({"Error" : "Server error"})
+    }
+})
+
+// reject all pending requests
+requestRouter.put("/:eventId/pendingrequrests",authenticate,async (req,res)=>{
+    try{
+
+        const { eventId } = req.params
+
+        await PlayerModel.updateMany({_id : eventId , status : 'Pending'},{
+            status : "Rejected"
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).send({"message" : 'Server error'})
     }
 })
 

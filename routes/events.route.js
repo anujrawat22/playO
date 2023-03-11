@@ -1,5 +1,5 @@
 const express = require("express");
-const { authenticate } = require("../Authentication/authenticate");
+const { authenticate } = require("../middlewares/authenticate");
 const { EventModel } = require("../models/event.model");
 const { PlayerModel } = require("../models/player.model");
 
