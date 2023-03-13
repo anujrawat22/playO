@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/",(req,res)=>{
-  res.send("Hello")
+  res.send("Hello There!")
 })
 // route for user signup and login
 app.use("/user", UserRouter);
