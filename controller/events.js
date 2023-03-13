@@ -72,8 +72,8 @@ exports.update_event = async (req, res) => {
   try {
     const { eventId } = req.params;
     const payload = req.body;
-
-    await EventModel.findOneAndUpdate({ _id: eventId }, { $set: payload });
+    const UserId = req.UserId
+    await EventModel.findOneAndUpdate({ _id: eventId,event_organizer_id : UserId }, { $set: payload });
     res
       .status(200)
       .send({ message: `Event with ${eventId} updated sucessfully` });
@@ -87,32 +87,32 @@ exports.change_event_status = async (req, res) => {
   try {
     const { eventId } = req.params;
     const { status } = req.query;
-
+    const UserId = req.UserId
     if (status === "Start") {
-      await EventModel.findByIdAndUpdate(
-        { _id: eventId },
+      await EventModel.updateMany(
+        { _id: eventId, event_organizer_id : UserId},
         {
           $set: { event_status: "Started" },
         }
       );
 
-      return res.status(200).send({ message: "Event Status Updated" });
+      return res.status(200).send({ message: `Event with ${eventId} started` });
     } else if (status === "End") {
-      await EventModel.findByIdAndUpdate(
-        { _id: eventId },
+      await EventModel.updateMany(
+        { _id: eventId ,event_organizer_id : UserId },
         {
           $set: { event_status: "Ended" },
         }
       );
 
       await PlayerModel.updateMany(
-        { _id: eventId, status: "Pending" },
+        { _id: eventId, status: "Pending" ,organizer_id : UserId },
         {
           status: "Rejected",
         }
       );
 
-      return res.status(200).send({ message: `Event Status Updated and all pending request of eventId - ${eventId} rejected` });
+      return res.status(200).send({ message: `Event Status  Updated to "Ended" and all pending request of eventId - ${eventId} rejected` });
     }
   } catch (err) {
     console.log(err);
@@ -123,8 +123,8 @@ exports.change_event_status = async (req, res) => {
 exports.delete_event = async (req, res) => {
   try {
     const { eventId } = req.params;
-
-    await EventModel.findByIdAndDelete({ _id: eventId });
+    const UserId = req.UserId
+    await EventModel.findOneAndDelete({ _id: eventId ,event_organizer_id :  UserId});
     res
       .status(200)
       .send({ message: `Event with ${eventId} deleted sucessfully` });

@@ -3,12 +3,15 @@ const { connection } = require("./config/db");
 const { eventRouter } = require("./routes/events.route");
 const { requestRouter } = require("./routes/request.route");
 const { UserRouter } = require("./routes/user.route");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.get("/",(req,res)=>{
-  res.send("Hello There!")
+  res.send("<h1>Hello There!</h1>")
 })
 // route for user signup and login
 app.use("/user", UserRouter);

@@ -19,7 +19,7 @@ requestRouter.post("/:id/accept", authenticate, accept_event_request);
 requestRouter.post("/:id/reject", authenticate, reject_event_request);
 
 // reject all pending requests
-requestRouter.put(
+requestRouter.patch(
   "/:eventId/pendingrequrests",
   authenticate,
   reject_allpending_request

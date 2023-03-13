@@ -5,6 +5,7 @@ exports.join_event = async (req, res) => {
     try {
       const { eventId } = req.params;
       const UserId = req.UserId
+      const username = req.username
       const event = await EventModel.findOne({_id : eventId})
       if(!event){
           // if the event doesn't exists
@@ -18,7 +19,7 @@ exports.join_event = async (req, res) => {
         organizer_id: event.event_organizer_id,
       });
       player.save()
-      res.status(200).send({"message" :  "Request sucessfully created"})
+      res.status(200).send({"message" :  "Join request sucessfully created"})
     } catch (err) {
       console.log(err);
       res.status(500).send({ Error: "Server error" });
@@ -63,7 +64,7 @@ exports.reject_event_request = async(req,res)=>{
             return res.status(404).send({"message" : `request with ${id} not for your event not found `})
         }
 
-        await PlayerModel.findByIdAndUpdate({_id : id},{$set : {
+        await PlayerModel.findOneAndUpdate({_id : id,status : "Pending" },{$set : {
             status : "Rejected"
         }})
 

@@ -17,11 +17,11 @@ eventRouter.post("/create", authenticate, create_event);
 
 
 // update the details of an event
-eventRouter.put("/:eventId/update",authenticate,update_event)
+eventRouter.patch("/:eventId/update",authenticate,update_event)
 
 
 // update the status of an event and if the event status changes to start all the request for that event reject
-eventRouter.put("/:eventId/status",authenticate,change_event_status)
+eventRouter.patch("/:eventId/status",authenticate,change_event_status)
 
 // delete an event
 eventRouter.delete("/delete/:eventId",authenticate,delete_event)
