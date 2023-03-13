@@ -57,7 +57,7 @@
  
  > returns :- {message: "Login Sucessful", token: token, refresh_token: refresh_token, user_detail: { name: user.name, email: user.email }} On correct credentials 
  
- * Get /events/ 
+ ## Get /events/ 
  
  > returns :- all events sorted by event time
  
