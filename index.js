@@ -7,6 +7,9 @@ const { UserRouter } = require("./routes/user.route");
 const app = express();
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+  res.send("Hello")
+})
 // route for user signup and login
 app.use("/user", UserRouter);
 
